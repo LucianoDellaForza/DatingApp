@@ -1,0 +1,1 @@
+global.json je za verziju dot neta koji se koristi na kursu
