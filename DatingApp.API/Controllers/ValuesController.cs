@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DatingApp.API.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.API.Controllers
 {
+    [Authorize] //everything in this controller has to be an autohorized request (with token)
     //  http://localhost:5000/api/values
     [Route("api/[controller]")]
     [ApiController]
@@ -28,6 +30,7 @@ namespace DatingApp.API.Controllers
             return Ok(values);  //http 200 ok response
         }
 
+        [AllowAnonymous]    //ne treba token da bi se poslao zahtev za ovo
         // GET api/values/5
         [HttpGet("{id}")]
         public IActionResult GetValue(int id)
