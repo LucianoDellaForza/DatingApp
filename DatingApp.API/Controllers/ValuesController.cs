@@ -21,6 +21,7 @@ namespace DatingApp.API.Controllers
         }
 
         //CONTROLLER METHODS SHOULD BE ASYNCHRONIOUS, ali iz nekog razloga nece da mi da da ih napravim takve
+        [AllowAnonymous] 
         // GET api/values
         [HttpGet]
         public IActionResult GetValues()    //IActionResult interfejs nudi i da se vrati Ok code za http odgovor
