@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using DatingApp.API.Data;
+using DatingApp.API.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -49,12 +53,24 @@ namespace DatingApp.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment())    //ako smo u developer mode-u
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();    //bacaj developer exceptione za laksu dijagnozu u npr postmanu
             }
             else
             {
+                app.UseExceptionHandler(builder => {    //ubacuje middle-mana u pipeline koji ce hvatati exceptione na globalnom nivou (ali samo ako je aplikacija u production mode-u)
+                    builder.Run(async context => {  //context is related to http request/response
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;  //stavicemo da bude InternalServerError status code
+
+                        var error = context.Features.Get<IExceptionHandlerFeature>();   //for storing error
+                        if(error != null) 
+                        {
+                            context.Response.AddApplicationError(error.Error.Message);  //napravili smo static klasu za ovo
+                            await context.Response.WriteAsync(error.Error.Message); //upisujemo i error message u http response
+                        }
+                    });
+                });  
                 //app.UseHsts();
             }
 
