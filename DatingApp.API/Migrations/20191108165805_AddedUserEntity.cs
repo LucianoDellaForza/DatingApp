@@ -13,7 +13,7 @@ namespace DatingApp.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserName = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSalt = table.Column<byte[]>(nullable: true)
                 },

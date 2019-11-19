@@ -10,6 +10,7 @@ namespace DatingApp.API.Data
        
         //ovde dodajem "migracije" ---> Da bi napravio novi table u sqlite bazi kuca se u terminalu posebno za svaku migraciju, sto onda u folderu Migrations izbaci sta se radilo
         public DbSet<Value> Values { get; set; }
-        public DbSet<User> Users { get; set; }      
+        public DbSet<User> Users { get; set; }     
+        public DbSet<Photo> Photos { get; set; } 
     }
 }
