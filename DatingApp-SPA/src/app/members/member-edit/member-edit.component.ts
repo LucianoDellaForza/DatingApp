@@ -12,8 +12,9 @@ import { AuthService } from 'src/app/_services/auth.service';
   styleUrls: ['./member-edit.component.css']
 })
 export class MemberEditComponent implements OnInit {
-  user: User;
   @ViewChild('editForm', { static: false }) editForm: NgForm;
+  user: User;
+  photoUrl: string;
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
     if (this.editForm.dirty) {
@@ -29,11 +30,12 @@ export class MemberEditComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.user = data['user'];
     });
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   updateUser() {
     //console.log(this.user);
-    //id uzimamo iz tokena
+    //id uzimam iz tokena
     this.userService.updateUser(this.authService.decodedToken.nameid, this.user).subscribe(next => {
       this.alertify.success('Profile updated successfully.');
       this.editForm.reset(this.user);
@@ -41,6 +43,10 @@ export class MemberEditComponent implements OnInit {
       this.alertify.error(error);
     });
 
+  }
+
+  updateMainPhoto(photoUrl) {
+    this.user.photoUrl = photoUrl;
   }
 
 }

@@ -11,5 +11,8 @@ namespace DatingApp.API.Data
         Task<bool> SaveAll();   //when we save changes to db, there will be 0 changes or more than 0 changes
         Task<IEnumerable<User>> GetUsers();
         Task<User> GetUser(int id);
+        Task<Photo> GetPhoto(int id);
+
+        Task<Photo> GetMainPhotoForUser(int userId);
     }
 }
