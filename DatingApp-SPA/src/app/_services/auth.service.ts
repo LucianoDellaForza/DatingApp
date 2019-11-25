@@ -40,8 +40,8 @@ login(model: any) { //this method is called anonymously (no need for authorizati
   )
 }
 
-register(model: any) {
-  return this.http.post(this.baseUrl + 'register', model);
+register(user: User) {
+  return this.http.post(this.baseUrl + 'register', user);
 }
 
 loggedIn() {
